@@ -1,82 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VMESS to YAML Converter</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        textarea {
-            width: 100%;
-            height: 200px;
-            margin-bottom: 10px;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<h2>VMESS to YAML Converter</h2>
-<p>Masukkan vmess di bawah ini:</p>
+    <h2>VMESS to YAML Converter</h2>
+    <p>Masukkan vmess di bawah ini:</p>
 
-<textarea id="vmessInput"></textarea>
-<button onclick="convertToYAML()">Convert to YAML</button>
-<br>
-<h3>Hasil Konversi:</h3>
-<textarea id="yamlOutput" readonly></textarea>
+    <textarea id="vmessInput"></textarea>
+    <select id="bugList" onchange="updateBug()">
+        <option value="cf-vod.nimo.tv">Gamemax</option>
+        <option value="104.18.53.42">Pendidikan</option>
+    </select>
+    <button onclick="convertToYAML()">Generate Config</button>
+    <br>
+    <h3>Hasil Konversi:</h3>
+    <textarea id="yamlOutput" readonly></textarea>
 
-<script>
-    function convertToYAML() {
-        var vmessInput = document.getElementById("vmessInput").value.trim();
-        var vmessArray = vmessInput.split('\n');
-        var yamlOutput = "proxies:\n";
-        vmessArray.forEach(function(line) {
-            if (line.trim() !== "") {
-                var vmessData = parseVmess(line.trim());
-                if (vmessData !== null) {
-                    yamlOutput += "  - name: " + vmessData.add + "\n";
-                    yamlOutput += "    type: vmess\n";
-                    yamlOutput += "    server: " + vmessData.add + "\n";
-                    yamlOutput += "    port: " + vmessData.port + "\n";
-                    yamlOutput += "    uuid: " + vmessData.id + "\n";
-                    yamlOutput += "    alterId: " + vmessData.aid + "\n";
-                    yamlOutput += "    cipher: auto\n";
-                    yamlOutput += "    tls: true\n";
-                    yamlOutput += "    skip-cert-verify: true\n";
-                    yamlOutput += "    servername: " + vmessData.host + "\n";
-                    yamlOutput += "    network: " + vmessData.net + "\n";
-                    yamlOutput += "    grpc-opts:" + "\n";
-                    yamlOutput += "      grpc-service-name: " + vmessData.path + "\n";
-                    yamlOutput += "    udp: true\n";
-                }
-            }
-        });
-        document.getElementById("yamlOutput").value = yamlOutput;
-    }
+    <br>
 
-    function parseVmess(vmess) {
-        try {
-            var decoded = atob(vmess.split("://")[1]);
-            return JSON.parse(decoded);
-        } catch (error) {
-            console.error("Failed to parse Vmess:", error);
-            return null;
-        }
-    }
-</script>
 
+    <script src="converter.js"></script>
 </body>
+
 </html>
