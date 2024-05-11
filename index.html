@@ -11,22 +11,30 @@
 <body>
 
     <h2>Generate Config Clash</h2>
-    <p>Masukkan akun di bawah ini,pisahkan dengan enter:</p>
+    <p>Masukkan akun di bawah ini, pisahkan dengan enter:</p>
 
     <textarea id="vmessInput"></textarea>
     <select id="bugList" onchange="updateBug()">
         <option value="cf-vod.nimo.tv">Gamemax</option>
         <option value="104.18.53.42">Pendidikan</option>
     </select>
-    <button onclick="convertToYAML()">Generate Config</button>
+    <button class="generate" onclick="convertToYAML()">Generate Config</button>
     <br>
-    <h3>Result:</h3>
+    <br>
+    <button onclick="myFunction()">Copy Text</button> <!-- Tombol tambahan -->
     <textarea id="yamlOutput" readonly></textarea>
 
     <br>
-
-
     <script src="converter.js"></script>
+    <script>
+        function myFunction() {
+            var copyText = document.getElementById("yamlOutput");
+            copyText.select();
+            copyText.setSelectionRange(0, 99999);
+            document.execCommand("copy");
+            alert("Text copied to clipboard!");
+        }
+    </script>
 </body>
 
 </html>
