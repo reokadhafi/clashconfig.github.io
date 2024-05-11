@@ -48,7 +48,8 @@ function convertToYAML() {
                 } else if (vmessData.net === "ws") {
                     yamlOutput += "    ws-opts:\n";
                     yamlOutput += "      path: " + vmessData.path + "\n";
-                    yamlOutput += "      headers: Host: " + name + "\n";
+                    yamlOutput += "      headers:" + "\n";
+                    yamlOutput += "        Host: " + name + "\n";
                 }
                 yamlOutput += "    udp: true\n";
             } else if (trojanData !== null) {
@@ -82,7 +83,8 @@ function convertToYAML() {
                 } else if (trojanData.type === "ws") {
                     yamlOutput += "    ws-opts:\n";
                     yamlOutput += "      path: " + trojanData.path + "\n";
-                    yamlOutput += "      headers: Host: " + name + "\n";
+                    yamlOutput += "      headers:" + "\n";
+                    yamlOutput += "        Host: " + name + "\n";
                 }
                 yamlOutput += "    udp: true\n";
             }
