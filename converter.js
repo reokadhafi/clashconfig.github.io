@@ -38,7 +38,11 @@ function convertToYAML() {
                 yamlOutput += "    uuid: " + vmessData.id + "\n";
                 yamlOutput += "    alterId: " + vmessData.aid + "\n";
                 yamlOutput += "    cipher: auto\n";
-                yamlOutput += "    tls: true\n";
+                if (vmessData.net === "grpc") {
+                    yamlOutput += "    tls: true\n";
+                } else if (vmessData.net === "ws") {
+                    yamlOutput += "    tls: false\n";
+                }
                 yamlOutput += "    skip-cert-verify: true\n";
                 yamlOutput += "    servername: " + name + "\n";
                 yamlOutput += "    network: " + vmessData.net + "\n";
@@ -73,7 +77,13 @@ function convertToYAML() {
                 }
                 yamlOutput += "    server: " + bug + "\n";
                 yamlOutput += "    password: " + trojanData.password + "\n";
-                yamlOutput += "    tls: true\n";
+                if (trojanData.jenis === "vless" && trojanData.type === "ws") {
+                    yamlOutput += "    tls: false\n";
+                } else if (trojanData.jenis === "vless" && trojanData.type === "grpc") {
+                    yamlOutput += "    tls: true\n";
+                } else if (trojanData.jenis === "trojan") {
+                    yamlOutput += "    tls: true\n";
+                }
                 yamlOutput += "    skip-cert-verify: true\n";
                 yamlOutput += "    sni: " + name + "\n";
                 yamlOutput += "    network: " + trojanData.type + "\n";
