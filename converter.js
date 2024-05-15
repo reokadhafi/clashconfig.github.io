@@ -68,6 +68,7 @@ function convertToYAML() {
                 }
                 yamlOutput += "  - name: " + name + "-" + randomString + "\n";
                 yamlOutput += "    type: " + trojanData.jenis + "\n";
+                yamlOutput += "    server: " + bug + "\n";
                 if (trojanData.jenis === "vless" && trojanData.type === "ws") {
                     yamlOutput += "    port: 80\n";
                 } else if (trojanData.jenis === "vless" && trojanData.type === "grpc") {
@@ -75,13 +76,14 @@ function convertToYAML() {
                 } else if (trojanData.jenis === "trojan") {
                     yamlOutput += "    port: 443\n";
                 }
-                yamlOutput += "    server: " + bug + "\n";
-                yamlOutput += "    password: " + trojanData.password + "\n";
                 if (trojanData.jenis === "vless" && trojanData.type === "ws") {
+                    yamlOutput += "    uuid: " + trojanData.password + "\n";
                     yamlOutput += "    tls: false\n";
                 } else if (trojanData.jenis === "vless" && trojanData.type === "grpc") {
+                    yamlOutput += "    uuid: " + trojanData.password + "\n";
                     yamlOutput += "    tls: true\n";
                 } else if (trojanData.jenis === "trojan") {
+                    yamlOutput += "    password: " + trojanData.password + "\n";
                     yamlOutput += "    tls: true\n";
                 }
                 yamlOutput += "    skip-cert-verify: true\n";
