@@ -1,4 +1,4 @@
-var data_bug = ["cf-vod.nimo.tv", "104.18.53.42"];
+var data_bug = ["cf-vod.nimo.tv", "104.18.53.42", "172.64.146.115"];
 
 function updateBug() {
     var bugList = document.getElementById("bugList");
