@@ -92,18 +92,13 @@ button:hover {
 }
 
 .container {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    /* Allow wrapping if necessary */
+    display: block;
+    /* Mengubah Flexbox menjadi block */
 }
 
 .column {
-    margin: 0 20px;
-    flex: 1;
-    /* Allow columns to grow and shrink as needed */
-    min-width: 200px;
-    /* Minimum width to ensure readability */
+    margin-bottom: 20px;
+    /* Memberikan jarak antara kolom */
 }
 
 ul {
@@ -122,4 +117,20 @@ a {
 
 a:hover {
     text-decoration: underline;
+}
+
+.ping-result {
+    font-weight: bold;
+}
+
+.ping-green {
+    color: green;
+}
+
+.ping-yellow {
+    color: orange;
+}
+
+.ping-red {
+    color: red;
 }
