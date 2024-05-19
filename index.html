@@ -12,12 +12,13 @@
 
         <h2>Generate Config Clash</h2>
         <p>Masukkan akun di bawah ini, pisahkan dengan enter:</p>
-
         <textarea id="vmessInput"></textarea>
-        <select id="bugList" onchange="updateBug()">
-                <option value="172.64.146.115">Gamemax</option>
-                <option value="104.18.53.42">Pendidikan</option>
-        </select>
+        <div class="select">
+                <select id="bugList" onchange="updateBug()">
+                        <option value="172.64.146.115">Gamemax</option>
+                        <option value="104.18.53.42">Pendidikan</option>
+                </select>
+        </div>
         <button class="generate" onclick="convertToYAML()">Generate Config</button>
         <br>
         <br>
