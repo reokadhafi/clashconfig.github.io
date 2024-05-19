@@ -46,7 +46,7 @@ button:hover {
     -webkit-user-select: none;
     touch-action: manipulation;
     left: 213px;
-    bottom: 32px;
+    bottom: 30px;
 }
 
 .generate:before {
