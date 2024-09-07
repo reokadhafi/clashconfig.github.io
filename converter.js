@@ -1,4 +1,4 @@
-var data_bug = ["cf-vod.nimo.tv", "104.18.53.42", "172.64.146.115"];
+var data_bug = ["cf-vod.nimo.tv", "104.18.53.42", "172.64.146.115", "app-stg.gopay.co.id"];
 
 function updateBug() {
     var bugList = document.getElementById("bugList");
@@ -33,7 +33,11 @@ function convertToYAML() {
                 if (vmessData.net === "grpc") {
                     yamlOutput += "    port: 443\n";
                 } else if (vmessData.net === "ws") {
-                    yamlOutput += "    port: 80\n";
+                    if (bug === "app-stg.gopay.co.id") {
+                        yamlOutput += "    port: 443\n";
+                    } else {
+                        yamlOutput += "    port: 80\n";
+                    }
                 }
                 yamlOutput += "    uuid: " + vmessData.id + "\n";
                 yamlOutput += "    alterId: " + vmessData.aid + "\n";
@@ -41,7 +45,11 @@ function convertToYAML() {
                 if (vmessData.net === "grpc") {
                     yamlOutput += "    tls: true\n";
                 } else if (vmessData.net === "ws") {
-                    yamlOutput += "    tls: false\n";
+                    if (bug === "app-stg.gopay.co.id") {
+                        yamlOutput += "    tls: true\n";
+                    } else {
+                        yamlOutput += "    tls: false\n";
+                    }
                 }
                 yamlOutput += "    skip-cert-verify: true\n";
                 yamlOutput += "    servername: " + name + "\n";
