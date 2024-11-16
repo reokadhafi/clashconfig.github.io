@@ -125,51 +125,69 @@ function parseVmess(vmess) {
 }
 
 function parseTrojan(url) {
-    var parsed_url = new URL(url);
-    var jenis = url.split("://")[0]
-    var password = "";
-    var server = "";
-    var port = parsed_url.port || 443; // Default port for trojan
-    var query_params = new URLSearchParams(parsed_url.search);
-    var sni = query_params.get("sni") || "";
-    var type = query_params.get("type") || "";
-    var host = query_params.get("host") || "";
-    var path = query_params.get("path") || "";
-    var service_name = query_params.get("serviceName") || "";
-
-    // Check if credentials are in the authority
-    if (parsed_url.username && parsed_url.password) {
-        password = parsed_url.password;
-        server = parsed_url.username + "@" + parsed_url.hostname;
-    } else {
-        // If not, try to extract credentials from the path
-        var path_parts = parsed_url.pathname.split("@");
-        if (path_parts.length === 2) {
-            password = path_parts[0].replace(/^\/\//, '');
-            server = path_parts[1].split(":")[0];
+    try {
+        // Ganti skema trojan:// menjadi http:// agar URL parsing berjalan
+        if (url.startsWith("trojan://")) {
+            url = url.replace("trojan://", "http://");
         }
-    }
 
-    var data_dict = {
-        "jenis": jenis,
-        "password": password,
-        "server": server,
-        "port": port,
-        "sni": sni,
-        "type": type,
-        "host": host,
-        "path": path,
-        "service_name": service_name
-    };
+        // Gunakan URL object untuk parsing
+        const parsed_url = new URL(url);
 
-    if (type === "") {
-        for (var key in data_dict) {
-            data_dict[key] = null;
+        let jenis = "trojan"; // Default jenis adalah trojan
+        let password = ""; // Default password kosong
+        let server = ""; // Default server kosong
+        let port = parsed_url.port || "443"; // Default port adalah 443
+        const query_params = new URLSearchParams(parsed_url.search); // Ambil query params
+
+        // Ekstraksi SNI, type, host, path, dan service name dari query
+        let sni = query_params.get("sni") || "";
+        let type = query_params.get("type") || ""; // ws atau grpc
+        let host = query_params.get("host") || "";
+        let path = query_params.get("path") || "/";
+        let service_name = query_params.get("serviceName") || "";
+
+        // Cek kredensial di bagian authority (username:password@hostname)
+        if (parsed_url.username) {
+            password = parsed_url.username; // Password diambil dari username (karena skema HTTP diubah)
+            server = parsed_url.hostname; // Hostname langsung diambil
+        } else {
+            // Cek kredensial di path jika tidak ada username
+            const path_parts = parsed_url.pathname.split("@");
+            if (path_parts.length === 2) {
+                password = path_parts[0].replace(/^\/\//, ""); // Ambil password sebelum @
+                server = path_parts[1].split(":")[0]; // Ambil server setelah @
+            }
         }
-    } else if (type === "grpc") {
-        data_dict["network"] = "grpc";
-        data_dict["grpc-service-name"] = service_name;
-    }
 
-    return data_dict;
+        // Buat objek data hasil parsing
+        const data_dict = {
+            "jenis": jenis,
+            "password": password,
+            "server": server,
+            "port": port,
+            "sni": sni,
+            "type": type,
+            "host": host,
+            "path": path,
+            "service_name": service_name,
+        };
+
+        // Tambahkan properti tambahan berdasarkan type
+        if (type === "") {
+            // Jika type kosong, set semua nilai ke null
+            for (const key in data_dict) {
+                data_dict[key] = null;
+            }
+        } else if (type === "grpc") {
+            // Jika type adalah grpc, tambahkan properti untuk gRPC
+            data_dict["network"] = "grpc";
+            data_dict["grpc-service-name"] = service_name;
+        }
+
+        return data_dict;
+    } catch (error) {
+        console.error("Failed to parse Trojan URL:", error);
+        return null; // Kembalikan null jika terjadi error
+    }
 }
