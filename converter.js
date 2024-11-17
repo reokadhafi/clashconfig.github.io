@@ -129,12 +129,16 @@ function parseTrojan(url) {
         // Ganti skema trojan:// menjadi http:// agar URL parsing berjalan
         if (url.startsWith("trojan://")) {
             url = url.replace("trojan://", "http://");
+            jenisvpn = "trojan";
+        } else if (url.startsWith("vless://")) {
+            url = url.replace("vless://", "http://");
+            jenisvpn = "vless";
         }
 
         // Gunakan URL object untuk parsing
         const parsed_url = new URL(url);
 
-        let jenis = "trojan"; // Default jenis adalah trojan
+        let jenis = jenisvpn; // Default jenis adalah trojan
         let password = ""; // Default password kosong
         let server = ""; // Default server kosong
         let port = parsed_url.port || "443"; // Default port adalah 443
